@@ -3,5 +3,4 @@ lib/stringray.rb
 Rakefile
 README.mkdn
 spec/stringray_spec.rb
-stringray.gemspec
 .manifest

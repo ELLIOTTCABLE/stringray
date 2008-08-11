@@ -19,7 +19,7 @@ begin
       g.url = 'http://github.com/elliottcable/stringray'
       g.dependencies = []
       g.manifest_name = '.manifest'
-      g.ignore_pattern = /(^\.git|^meta)/
+      g.ignore_pattern = ['.git', 'meta', 'stringray.gemspec']
     end
   
     desc 'tests packaged files to ensure they are all present'
@@ -83,9 +83,15 @@ ensure
       system 'open ' + 'meta' / 'coverage' / 'index.html' if PLATFORM['darwin']
     end
   end
+  
+  namespace :git do
+    task :status do
+      `git status`
+    end
+  end
 
   desc 'Check everything over before commiting'
-  task :aok => [:'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:ratio', :'rcov:open']
+  task :aok => [:'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:ratio', :'rcov:open', :'git:status']
 
   # desc 'Task run during continuous integration' # Invisible
   task :cruise => [:'rcov:plain', :'rcov:verify', :'rcov:ratio']
