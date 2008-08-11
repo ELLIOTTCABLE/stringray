@@ -7,13 +7,13 @@ most useful `Array` methods on your `String`s.
 
 Usage
 -----
-  
-  class String; include StringRay; end
-  
-  "Oi! I'm a string, do something fun with me!".each do |word|
-    p word
-  end
-  
+    
+    class String; include StringRay; end
+    
+    "Oi! I'm a string, do something fun with me!".each do |word|
+      p word
+    end
+    
 Getting
 -------
 
@@ -24,11 +24,9 @@ following command:
     git clone git://github.com/elliottcable/stringray.git
 
 If you want to make changes to the codebase, you need to fork your own GitHub
-repository for said changes. Send a pullrequest to [elliottcable][1]
+repository for said changes. Send a pullrequest to [elliottcable](http://github.com/elliottcable "elliottcable on GitHub")
 when you've got something ready for the master branch that you think should be
 merged.
-
-  [1]: <http://github.com/elliottcable> (elliottcable on GitHub)
 
 Requirements
 ------------
@@ -40,3 +38,4 @@ To develop and contribute to git-blog, you also need:
 * `gem install rake`
 * `gem install rspec`
 * `gem install rcov`
+* `gem install echoe`
