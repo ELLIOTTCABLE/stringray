@@ -1,4 +1,6 @@
 module StringRay
+  VERSION = 1
+  
   # Splits a string into words. Not using the obvious names (+#split+, +#words+)
   # because I want compatibility for inclusion into +String+.
   def enumerate
