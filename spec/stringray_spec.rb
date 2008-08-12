@@ -45,10 +45,17 @@ describe 'a String including StringRay' do
     end
     
     it 'should correctly treat a delimated word' do
-      string = "String and Array, sitting in a tree - K-I-S-S-I-N-G!"
+      string = 'String and Array, sitting in a tree - K-I-S-S-I-N-G!'
       array = []
       string.each {|i| array << i }
       array.should == ['String ','and ','Array, ','sitting ','in ','a ','tree - ','K-','I-','S-','S-','I-','N-','G!']
+    end
+    
+    it 'should correctly treat line returns' do
+      string = "This has\na line return!"
+      array = []
+      string.each {|i| array << i }
+      array.should == ["This ","has\n","a ","line ","return!"]
     end
   end
   
