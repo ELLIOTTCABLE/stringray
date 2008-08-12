@@ -1,6 +1,6 @@
 ($:.unshift File.expand_path(File.join( File.dirname(__FILE__), 'lib' ))).uniq!
 require 'stringray'
-require 'merb-extlib/string' # String#/, because I'm a lazy fuck.
+require 'extlib/string' # String#/, because I'm a lazy fuck.
 require 'rake'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'
