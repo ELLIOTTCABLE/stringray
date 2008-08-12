@@ -15,6 +15,34 @@ describe 'a String including StringRay' do
         'many ','things - ','of ','sailing ','ships ','and ','sealing ',
         'wax, ','of ','cabbages ','and ','kings!']
     end
+    
+    it 'should correctly treat commas and lists' do
+      string = 'I have commas, periods, and other punctuation'
+      array = []
+      string.each {|i| array << i }
+      array.should == ['I ','have ','commas, ','periods, ','and ','other ','punctuation']
+    end
+    
+    it 'should correctly treat periods and end-of-sentance demarcators' do
+      string = 'Periods. Cool right? Yah!'
+      array = []
+      string.each {|i| array << i }
+      array.should == ['Periods. ','Cool ','right? ','Yah!']
+    end
+    
+    it 'should correctly treat dahses' do
+      string = 'I have - uh - dashes!'
+      array = []
+      string.each {|i| array << i }
+      array.should == ['I ','have - ','uh - ','dashes!']
+    end
+    
+    it 'should correctly treat ellipses' do
+      string = 'Where are we... going?'
+      array = []
+      string.each {|i| array << i }
+      array.should == ['Where ','are ','we... ','going?']
+    end
   end
   
   describe '#each_word' do
