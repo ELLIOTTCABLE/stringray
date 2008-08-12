@@ -25,7 +25,7 @@ begin
     desc 'tests packaged files to ensure they are all present'
     task :verify => :package do
       # An error message will be displayed if files are missing
-      if system %(ruby -e "require 'rubygems'; require 'merb-core'; require 'pkg/merb_strokedb-#{Merb::Orms::StrokeDB::VERSION}/lib/merb_strokedb'")
+      if system %(ruby -e "require 'rubygems'; require 'pkg/merb_strokedb-#{StringRay::VERSION}/lib/stringray'")
         puts "\nThe library files are present"
       end
     end
