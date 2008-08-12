@@ -43,6 +43,13 @@ describe 'a String including StringRay' do
       string.each {|i| array << i }
       array.should == ['Where ','are ','we... ','going?']
     end
+    
+    it 'should correctly treat a delimated word' do
+      string = "String and Array, sitting in a tree - K-I-S-S-I-N-G!"
+      array = []
+      string.each {|i| array << i }
+      array.should == ['String ','and ','Array, ','sitting ','in ','a ','tree - ','K-','I-','S-','S-','I-','N-','G!']
+    end
   end
   
   describe '#each_word' do
@@ -84,15 +91,6 @@ describe 'a String including StringRay' do
       array.should == ['The',' ','time',' ','has',' ','come',' ','to',' ','talk',' ','of',
         ' ','many',' ','things',' -',' ','of',' ','sailing',' ','ships',' ','and',' ','sealing',
         ' ','wax,',' ','of',' ','cabbages',' ','and',' ','kings!']
-    end
-    
-    it 'should be able to not split a delimated word' do
-      pending "Figure out a way to allow delemiters to _not_ split words " +
-        "- i.e. 'K-I-S-S-I-N-G' should be passed as a single word."
-      
-      string = "String and Array, sitting in a tree - K-I-S-S-I-N-G!"
-      array = string.map
-      array.should == ['String ','and ','Array, ','sitting ','in ','a ','tree - ','K-','I-','S-','S-','I-','N-','G!']
     end
   end
   
