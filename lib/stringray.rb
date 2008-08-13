@@ -5,31 +5,38 @@ module StringRay
   # because I want compatibility for inclusion into +String+.
   def enumerate
     ray = []
+    new_element = lambda do |element|
+      yield ray.last if block_given? unless ray.empty?
+      ray << element
+    end
     
-    self.each_byte do |byte|
-      char = byte.chr
-      
+    self.scan(/./um) do |char|
       if Delimiter::Characters.include? char
-        ray << Delimiter.new(char)
+        new_element[Delimiter.new(char)]
         
       elsif Whitespace::Characters.include? char
         if ray.last.is_a? Whitespace
           ray.last << char
         else
-          ray << Whitespace.new(char)
+          new_element[Whitespace.new(char)]
         end
         
       else
         if ray.last.is_a? Word
           ray.last << char
         else
-          ray << Word.new(char)
+          new_element[Word.new(char)]
         end
         
       end
     end
     
-    ray
+    if block_given?
+      yield ray.last
+      self
+    else
+      ray
+    end
   end
   
   # More sensible than +String#each+, this uses +#enumerate+ to enumerate on
@@ -41,11 +48,10 @@ module StringRay
     
     # First, we create a two-dimensional array of words with any whitespace or
     # delemiters that should attach to them.
-    words = self.enumerate
     mapped = []
     attach_before_next = []
     
-    words.each do |item|
+    self.enumerate do |item|
       case item
       when Delimiter
         case opts[:delemiters]

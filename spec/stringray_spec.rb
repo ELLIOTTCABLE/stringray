@@ -6,7 +6,33 @@ describe 'a String including StringRay' do
     String.send :include, StringRay
   end
   
-  describe '#enumerate' do
+  describe "#enumerate" do
+    # Unsemantic tests; laziness
+    it "should return an array of text elements" do
+      string = "You like snapples, mulberries and tandem jockeys?"
+      string.enumerate.should == ["You", " ", "like", " ", "snapples", ",",
+        " ", "mulberries", " ", "and", " ", "tandem", " ", "jockeys", "?"]
+    end
+    
+    it "should yield each text element if passed a block" do
+      string = "My coffee glass is moldy; why has it not been erased?"
+      expected_array = ["My", " ", "coffee", " ", "glass", " ", "is", " ",
+        "moldy", ";", " ", "why", " ", "has", " ", "it", " ", "not", " ",
+        "been", " ", "erased", "?"]
+      
+      string.enumerate do |element|
+        element.should == expected_array.shift
+      end
+    end
+    
+    it "should return self if passed a block" do
+      string = "It appears the clouds have shrunk. Maybe it is time " +
+        "to build a sand castle after all?"
+      string.enumerate{nil}.should == string
+    end
+  end
+  
+  describe 'iteration' do
     it 'should split a string into an array' do
       string = 'The time has come to talk of many things - of sailing ' +
         'ships and sealing wax, of cabbages and kings!'
@@ -22,7 +48,7 @@ describe 'a String including StringRay' do
         ['I ','have ','commas, ','periods, ','and ','other ','punctuation']
     end
     
-    it 'should correctly treat periods and end-of-sentance demarcators' do
+    it 'should correctly treat periods and end-of-sentence demarcators' do
       string = 'Periods. Cool right? Yah!'
       string.inject([]) {|a, i| a << i }.should == 
         ['Periods. ','Cool ','right? ','Yah!']
@@ -59,7 +85,7 @@ describe 'a String including StringRay' do
     end
   end
   
-  describe '#each_word' do
+  describe '#each_word specific behavior' do
     it 'should be able to attach delimeters to the beginning of the next word' do
       string = 'The time has come to talk of many things - of sailing ' +
         'ships and sealing wax, of cabbages and kings!'
