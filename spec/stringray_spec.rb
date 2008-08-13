@@ -52,11 +52,18 @@ describe 'a String including StringRay' do
       array.should == ['String ','and ','Array, ','sitting ','in ','a ','tree - ','K-','I-','S-','S-','I-','N-','G!']
     end
     
-    it 'should correctly treat line returns' do
+    it 'should correctly treat inline line returns' do
       string = "This has\na line return!"
       array = []
       string.each {|i| array << i }
       array.should == ["This ","has\n","a ","line ","return!"]
+    end
+    
+    it 'should correctly treat prefacing line returns and whitespace' do
+      string = "\n  Now it starts!\n\n"
+      array = []
+      string.each {|i| array << i }
+      array.should == ["\n  Now ","it ","starts!\n\n"]
     end
   end
   

@@ -55,7 +55,11 @@ module StringRay
           attach_before_next << item
         else
           if attach_before_next.empty?
-            mapped.last << item
+            if mapped.last
+              mapped.last << item
+            else
+              attach_before_next << item
+            end
           else
             attach_before_next << item
           end
@@ -69,7 +73,11 @@ module StringRay
           attach_before_next << item
         else
           if attach_before_next.empty?
-            mapped.last << item
+            if mapped.last
+              mapped.last << item
+            else
+              attach_before_next << item
+            end
           else
             attach_before_next << item
           end
