@@ -1,5 +1,5 @@
 module StringRay
-  VERSION = 1
+  VERSION = 2
   
   # Splits a string into words. Not using the obvious names (+#split+, +#words+)
   # because I want compatibility for inclusion into +String+.
@@ -108,7 +108,7 @@ module StringRay
   end
   
   class Delimiter < String
-    Characters = ['-', ',', '.', '?', '!']
+    Characters = ['-', ',', '.', '?', '!', ':', ';', '/', '\\', '|']
     
     def inspect
       "<#{self}>"
