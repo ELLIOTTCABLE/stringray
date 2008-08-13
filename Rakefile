@@ -5,7 +5,6 @@ require 'rake'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
-require 'spec/rake/verify_ratio'
 
 begin
   require 'echoe'
@@ -73,10 +72,6 @@ ensure
     RCov::VerifyTask.new(:verify) do |t|
       t.threshold = 100
       t.index_html = 'meta' / 'coverage' / 'index.html'
-    end
-
-    Spec::Rake::VerifySpecRatioTask.new(:ratio) do |t|
-      t.ratio = 1.00
     end
 
     task :open do
