@@ -93,7 +93,11 @@ module StringRay
         
       end
     end
-    (mapped.last << attach_before_next).flatten! if not attach_before_next.empty?
+    
+    if not attach_before_next.empty?
+      mapped << [Word.new] unless mapped.last
+      (mapped.last << attach_before_next).flatten!
+    end
     
     # Next, we yield each group of (word plus delimiters and whitespace) as a
     # normal string to the block
