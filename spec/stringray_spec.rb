@@ -1,3 +1,4 @@
+($:.unshift File.expand_path(File.join( File.dirname(__FILE__), '..', 'lib' ))).uniq!
 require 'stringray'
 
 describe 'a String including StringRay' do
