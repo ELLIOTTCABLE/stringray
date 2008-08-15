@@ -81,8 +81,8 @@ describe 'a String including StringRay' do
     
     it 'should correctly treat prefacing line returns and whitespace' do
       string = "\n\t # Code\n\n"
-      string.inject([]) {|a, i| a << i }.should == 
-        ["\n\t ","# Code\n\n"]
+      string.enumerate.should == 
+        ["\n\t # ","Code\n\n"]
     end
     
     describe '(method options hash)' do
