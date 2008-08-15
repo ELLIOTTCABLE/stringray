@@ -85,44 +85,85 @@ describe 'a String including StringRay' do
         ["\n\t ","# Code\n\n"]
     end
     
-    it 'should be able to attach delimeters to the beginning of the next word' do
-      string = 'The time has come to talk of many things - of sailing ' +
-        'ships and sealing wax, of cabbages and kings!'
-      array = []
-      string.enumerate(:delemiters => :attach_after) {|i| array << i }
-      array.should == ['The ','time ','has ','come ','to ','talk ','of ',
-        'many ','things ','- of ','sailing ','ships ','and ','sealing ',
-        'wax',', of ','cabbages ','and ','kings!']
+    describe '(method options hash)' do
+      it 'should be able to attach delimeters to the beginning of the next word' do
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate(:delemiters => :attach_after).should == 
+          ['The ','time ','has ','come ','to ','talk ','of ',
+          'many ','things ','- of ','sailing ','ships ','and ','sealing ',
+          'wax',', of ','cabbages ','and ','kings!']
+      end
+    
+      it 'should be able to let delimeters stand alone' do
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate(:delemiters => :standalone).should ==
+          ['The ','time ','has ','come ','to ','talk ','of ',
+          'many ','things ','- ', 'of ','sailing ','ships ','and ','sealing ',
+          'wax',', ','of ','cabbages ','and ','kings','!']
+      end
+    
+      it 'should be able to attach whitespace to the beginning of the next word' do
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate(:whitespace => :attach_after).should ==
+          ['The',' time',' has',' come',' to',' talk',' of',
+          ' many',' things',' - of',' sailing',' ships',' and',' sealing',
+          ' wax,',' of',' cabbages',' and',' kings!']
+      end
+    
+      it 'should be able to let whitespace stand alone' do
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate(:whitespace => :standalone).should ==
+          ['The',' ','time',' ','has',' ','come',' ','to',' ','talk',' ','of',
+          ' ','many',' ','things',' -',' ','of',' ','sailing',' ','ships',' ','and',' ','sealing',
+          ' ','wax,',' ','of',' ','cabbages',' ','and',' ','kings!']
+      end
     end
     
-    it 'should be able to let delimeters stand alone' do
-      string = 'The time has come to talk of many things - of sailing ' +
-        'ships and sealing wax, of cabbages and kings!'
-      array = []
-      string.enumerate(:delemiters => :standalone) {|i| array << i }
-      array.should == ['The ','time ','has ','come ','to ','talk ','of ',
-        'many ','things ','- ', 'of ','sailing ','ships ','and ','sealing ',
-        'wax',', ','of ','cabbages ','and ','kings','!']
-    end
-    
-    it 'should be able to attach whitespace to the beginning of the next word' do
-      string = 'The time has come to talk of many things - of sailing ' +
-        'ships and sealing wax, of cabbages and kings!'
-      array = []
-      string.enumerate(:whitespace => :attach_after) {|i| array << i }
-      array.should == ['The',' time',' has',' come',' to',' talk',' of',
-        ' many',' things',' - of',' sailing',' ships',' and',' sealing',
-        ' wax,',' of',' cabbages',' and',' kings!']
-    end
-    
-    it 'should be able to let whitespace stand alone' do
-      string = 'The time has come to talk of many things - of sailing ' +
-        'ships and sealing wax, of cabbages and kings!'
-      array = []
-      string.enumerate(:whitespace => :standalone) {|i| array << i }
-      array.should == ['The',' ','time',' ','has',' ','come',' ','to',' ','talk',' ','of',
-        ' ','many',' ','things',' -',' ','of',' ','sailing',' ','ships',' ','and',' ','sealing',
-        ' ','wax,',' ','of',' ','cabbages',' ','and',' ','kings!']
+    describe '(class setter methods)' do
+      before :each do
+        StringRay::whitespace = nil
+        StringRay::delemiters = nil
+      end
+      
+      it 'should allow delemiter handling to be set through a class method' do
+        StringRay::whitespace = :attach_after
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate.should ==
+          ['The',' time',' has',' come',' to',' talk',' of',
+          ' many',' things',' - of',' sailing',' ships',' and',' sealing',
+          ' wax,',' of',' cabbages',' and',' kings!']
+        
+        StringRay::whitespace = :standalone
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate.should ==
+          ['The',' ','time',' ','has',' ','come',' ','to',' ','talk',' ','of',
+          ' ','many',' ','things',' -',' ','of',' ','sailing',' ','ships',' ','and',' ','sealing',
+          ' ','wax,',' ','of',' ','cabbages',' ','and',' ','kings!']
+      end
+      
+      it 'should allow whitespace handling to be set through a class method' do
+        StringRay::whitespace = :attach_after
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate.should ==
+          ['The',' time',' has',' come',' to',' talk',' of',
+          ' many',' things',' - of',' sailing',' ships',' and',' sealing',
+          ' wax,',' of',' cabbages',' and',' kings!']
+        
+        StringRay::whitespace = :standalone
+        string = 'The time has come to talk of many things - of sailing ' +
+          'ships and sealing wax, of cabbages and kings!'
+        string.enumerate.should ==
+          ['The',' ','time',' ','has',' ','come',' ','to',' ','talk',' ','of',
+          ' ','many',' ','things',' -',' ','of',' ','sailing',' ','ships',' ','and',' ','sealing',
+          ' ','wax,',' ','of',' ','cabbages',' ','and',' ','kings!']
+      end
     end
   end
   

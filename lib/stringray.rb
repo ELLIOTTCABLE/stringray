@@ -1,21 +1,36 @@
 module StringRay
   VERSION = 2
   
+  @@whitespace = nil
+  @@delemiters = nil
+  
   ##
   # @see #enumerate
   # Controls how +#enumerate+ deals with whitespace.
   # 
   # @param [Symbol] whitespace How to handle whitespace - :attach_before,
   #   :standalone, or :attach_after
-  attr_accessor :whitespace
+  def self.whitespace= whitespace
+    @@whitespace = whitespace
+  end
   
+  def self.whitespace
+    @@whitespace ||= :attach_before
+  end
+
   ##
   # @see #enumerate
   # Controls how +#enumerate+ deals with delemiters.
   # 
   # @param [Symbol] delemiters How to handle delemiters - :attach_before,
   #   :standalone, or :attach_after
-  attr_accessor :delemiters
+  def self.delemiters= delemiters
+    @@delemiters = delemiters
+  end
+  
+  def self.delemiters
+    @@delemiters ||= :attach_before
+  end
   
   ##
   # Splits a string into an array of +StringRay+ container objects (+Word+,
@@ -78,15 +93,13 @@ module StringRay
   # @return [Array[String]] An array of words
   # @since 1
   def enumerate options = {}, &block
-    {:whitespace => :attach_before, :delemiters => :attach_before}.merge! options
-    
     mapped = []
     attach_before_next = []
     
     self.to_stray do |element|
       case element
       when Delimiter
-        case options[:delemiters]
+        case options[:delemiters] || StringRay::delemiters
         when :standalone
           mapped << [element]
         when :attach_after
@@ -104,7 +117,7 @@ module StringRay
         end
         
       when Whitespace
-        case options[:whitespace]
+        case options[:whitespace] || StringRay::whitespace
         when :standalone
           mapped << [element]
         when :attach_after
