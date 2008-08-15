@@ -2,6 +2,12 @@ module StringRay
   VERSION = 2
   
   ##
+  # 
+  attr_accessor :whitespace
+  
+  attr_accessor :delemiters
+  
+  ##
   # Splits a string into an array of +StringRay+ container objects (+Word+,
   # +Whitespace+, and +Delimiter+).
   # 
@@ -12,7 +18,7 @@ module StringRay
   # @return [Array[Word, Whitespace, Delimiter]] An array of +StringRay+
   #   container objects
   # @since 2
-  def enumerate
+  def to_stray
     ray = []
     new_element = lambda do |element|
       yield ray.last if block_given? unless ray.empty?
@@ -50,6 +56,8 @@ module StringRay
   
   ##
   # @see #to_stray
+  # @see #whitespace
+  # @see #delemiters
   # Enumerates a string, similar to +#to_stray+, but returning an array of
   # plain +String+s instead of container objects.
   # 
@@ -59,58 +67,58 @@ module StringRay
   # @yieldparam [String] word The last processed word
   # @return [Array[String]] An array of words
   # @since 1
-  def each_word opts = {}, &block
-    {:whitespace => :attach_before, :delemiters => :attach_before}.merge! opts
+  def enumerate options = {}, &block
+    {:whitespace => :attach_before, :delemiters => :attach_before}.merge! options
     
     # First, we create a two-dimensional array of words with any whitespace or
     # delemiters that should attach to them.
     mapped = []
     attach_before_next = []
     
-    self.enumerate do |item|
-      case item
+    self.to_stray do |element|
+      case element
       when Delimiter
-        case opts[:delemiters]
+        case options[:delemiters]
         when :standalone
-          mapped << [item]
+          mapped << [element]
         when :attach_after
-          attach_before_next << item
+          attach_before_next << element
         else
           if attach_before_next.empty?
             if mapped.last
-              mapped.last << item
+              mapped.last << element
             else
-              attach_before_next << item
+              attach_before_next << element
             end
           else
-            attach_before_next << item
+            attach_before_next << element
           end
         end
         
       when Whitespace
-        case opts[:whitespace]
+        case options[:whitespace]
         when :standalone
-          mapped << [item]
+          mapped << [element]
         when :attach_after
-          attach_before_next << item
+          attach_before_next << element
         else
           if attach_before_next.empty?
             if mapped.last
-              mapped.last << item
+              mapped.last << element
             else
-              attach_before_next << item
+              attach_before_next << element
             end
           else
-            attach_before_next << item
+            attach_before_next << element
           end
         end
         
       when Word
         if not attach_before_next.empty?
-          mapped << [attach_before_next, item].flatten
+          mapped << [attach_before_next, element].flatten
           attach_before_next = []
         else
-          mapped << [item]
+          mapped << [element]
         end
         
       end
@@ -122,18 +130,25 @@ module StringRay
     end
     
     # Next, we yield each group of (word plus delimiters and whitespace) as a
-    # normal string to the block
-    mapped.each do |arr|
-      yield arr.map{|w|w.to_s}.join
+    # normal string to the block, and return an array of these
+    mapped.map do |arr|
+      string = arr.map{|w|w.to_s}.join
+      yield string if block_given?
+      string
     end
   end
   
+  # @deprecated
+  alias_method :each_word, :enumerate
+  
+  def Word word; Word.new word; end
   class Word < String
     def inspect
       "(#{self})"
     end
   end
   
+  def Whitespace whitespace; Whitespace.new whitespace; end
   class Whitespace < String
     Characters = [" ", "\t", "\n"]
     def inspect
@@ -141,6 +156,7 @@ module StringRay
     end
   end
   
+  def Delimiter delimiter; Delimiter.new delimiter; end
   class Delimiter < String
     Characters = ['-', ',', '.', '?', '!', ':', ';', '/', '\\', '|']
     
@@ -149,14 +165,26 @@ module StringRay
     end
   end
   
-  # This overrides +String#each+ with +StringRay#each_word+, thus allowing us
-  # to include +Enumerable+.
-  def self.included klass
-    klass.class_eval do
-      alias_method :each_at, :each
-      alias_method :each, :each_word
-      
-      include Enumerable
+  ##
+  # This is mixed into any class including +StringRay+. It exposes
+  # +::make_enumerable!+ to said class.
+  module Extendables
+    # This overrides +String#each+ with +StringRay#enumerate+, thus allowing
+    # us to include +Enumerable+. Be careful, this breaks lots of existing
+    # code which depends on the old methodology of +String#each+! The
+    # overridden +String#each+ functionality will be exposed as
+    # +String#each_at+.
+    def make_enumerable!
+      self.class_eval do
+        alias_method :each_at, :each
+        alias_method :each, :enumerate
+        
+        include Enumerable
+      end
     end
+  end
+  
+  def self.included klass
+    klass.send :extend, Extendables
   end
 end
