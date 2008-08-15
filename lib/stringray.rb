@@ -1,8 +1,17 @@
 module StringRay
   VERSION = 2
   
-  # Splits a string into words. Not using the obvious names (+#split+, +#words+)
-  # because I want compatibility for inclusion into +String+.
+  ##
+  # Splits a string into an array of +StringRay+ container objects (+Word+,
+  # +Whitespace+, and +Delimiter+).
+  # 
+  # @yield [element] Allows each 'element' of the string to be operated on
+  #   after it is processed
+  # @yieldparam [Word, Whitespace, Delimiter] element The last processed
+  #   string 'element'
+  # @return [Array[Word, Whitespace, Delimiter]] An array of +StringRay+
+  #   container objects
+  # @since 2
   def enumerate
     ray = []
     new_element = lambda do |element|
@@ -39,10 +48,17 @@ module StringRay
     end
   end
   
-  # More sensible than +String#each+, this uses +#enumerate+ to enumerate on
-  # words. Accepts options as a hash, determining whether :whitespace and
-  # :delemiters will :attach_before, :standalone, or :attach_after. Default is
-  # for both to :attach_before.
+  ##
+  # @see #to_stray
+  # Enumerates a string, similar to +#to_stray+, but returning an array of
+  # plain +String+s instead of container objects.
+  # 
+  # @param [Hash] options A hash of options
+  # @yield [word] Allows each word in the string to be operated on after it is
+  #   processed
+  # @yieldparam [String] word The last processed word
+  # @return [Array[String]] An array of words
+  # @since 1
   def each_word opts = {}, &block
     {:whitespace => :attach_before, :delemiters => :attach_before}.merge! opts
     
