@@ -67,10 +67,9 @@ describe 'a String including StringRay' do
     end
     
     it 'should correctly treat a delimated word' do
-      pending
-      string = 'W-o-r-d-s a-r-e c-o-o-l'
+      string = 'Pneumono-ultra-microscopic-silico-volcano-koniosis'
       string.enumerate.should == 
-        ['W-o-r-d-s ','a-r-e ','c-o-o-l']
+        ['Pneumono-','ultra-','microscopic-','silico-','volcano-','koniosis']
     end
     
     it 'should correctly treat inline line returns' do
