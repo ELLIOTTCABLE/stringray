@@ -2,9 +2,19 @@ module StringRay
   VERSION = 2
   
   ##
+  # @see #enumerate
+  # Controls how +#enumerate+ deals with whitespace.
   # 
+  # @param [Symbol] whitespace How to handle whitespace - :attach_before,
+  #   :standalone, or :attach_after
   attr_accessor :whitespace
   
+  ##
+  # @see #enumerate
+  # Controls how +#enumerate+ deals with delemiters.
+  # 
+  # @param [Symbol] delemiters How to handle delemiters - :attach_before,
+  #   :standalone, or :attach_after
   attr_accessor :delemiters
   
   ##
@@ -70,8 +80,6 @@ module StringRay
   def enumerate options = {}, &block
     {:whitespace => :attach_before, :delemiters => :attach_before}.merge! options
     
-    # First, we create a two-dimensional array of words with any whitespace or
-    # delemiters that should attach to them.
     mapped = []
     attach_before_next = []
     
@@ -129,8 +137,6 @@ module StringRay
       (mapped.last << attach_before_next).flatten!
     end
     
-    # Next, we yield each group of (word plus delimiters and whitespace) as a
-    # normal string to the block, and return an array of these
     mapped.map do |arr|
       string = arr.map{|w|w.to_s}.join
       yield string if block_given?
@@ -141,22 +147,38 @@ module StringRay
   # @deprecated
   alias_method :each_word, :enumerate
   
+  # @see StringRay::Word#new
   def Word word; Word.new word; end
+  
+  ##
+  # A wrapper class for strings that are 'words' in and of themselves,
+  # composed of 'word characters'.
   class Word < String
     def inspect
       "(#{self})"
     end
   end
   
+  # @see StringRay::Whitespace#new
   def Whitespace whitespace; Whitespace.new whitespace; end
+  
+  ##
+  # A wrapper class for strings that are 'whitespace' composed of 'whitespace
+  # characters'.
   class Whitespace < String
     Characters = [" ", "\t", "\n"]
+    
     def inspect
       "#{self}"
     end
   end
   
+  # @see StringRay::Delimiter#new
   def Delimiter delimiter; Delimiter.new delimiter; end
+  
+  ##
+  # A wrapper class for strings that are 'delimiters' composed of 'delimiter
+  # characters'.
   class Delimiter < String
     Characters = ['-', ',', '.', '?', '!', ':', ';', '/', '\\', '|']
     
@@ -165,10 +187,11 @@ module StringRay
     end
   end
   
-  ##
   # This is mixed into any class including +StringRay+. It exposes
   # +::make_enumerable!+ to said class.
   module Extendables
+    
+    ##
     # This overrides +String#each+ with +StringRay#enumerate+, thus allowing
     # us to include +Enumerable+. Be careful, this breaks lots of existing
     # code which depends on the old methodology of +String#each+! The
@@ -182,6 +205,7 @@ module StringRay
         include Enumerable
       end
     end
+    
   end
   
   def self.included klass
