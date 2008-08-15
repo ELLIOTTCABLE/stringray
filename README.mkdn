@@ -31,9 +31,9 @@ merged.
 Requirements
 ------------
 
-To run git-blog, you need... nothing!
+To use StringRay, you need... nothing!
 
-To develop and contribute to git-blog, you also need:
+To develop and contribute to StringRay, however, you need:
 
 * `gem install rake`
 * `gem install rspec`
