@@ -10,8 +10,13 @@ Usage
     
     class String; include StringRay; end
     
-    "Oi! I'm a string, do something fun with me!".each do |word|
+    "Oi! I'm a string, do something fun with me!".enumerate do |word|
       p word
+    end
+    
+    class String; make_enumerable!; end
+    "Who, what, when, where, why? The questions these are.".map do |word|
+      word << word[0].chr
     end
     
 Getting
