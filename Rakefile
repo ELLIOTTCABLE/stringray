@@ -70,8 +70,9 @@ ensure
     end
 
     RCov::VerifyTask.new(:verify) do |t|
-      t.threshold = 100
+      t.threshold = 95
       t.index_html = 'meta' / 'coverage' / 'index.html'
+      t.require_exact_threshold = false
     end
 
     task :open do
@@ -84,9 +85,13 @@ ensure
       `git status`
     end
   end
+  
+  task :clobber => [:'echoe:clobber_package', :'echoe:clobber_docs', :'echoe:clobber_coverage'] do
+    rm_f 'meta'
+  end
 
   desc 'Check everything over before commiting'
-  task :aok => [:'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:ratio', :'rcov:open', :'git:status']
+  task :aok => [:'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:open', :'git:status']
 
   # desc 'Task run during continuous integration' # Invisible
   task :cruise => [:'rcov:plain', :'rcov:verify', :'rcov:ratio']
