@@ -166,8 +166,12 @@ describe 'a String including StringRay' do
     end
   end
   
-  # TODO: Figure out a better way to say 'should be_include(Enumerable)'
-  # it 'should also include enumerable' do
-  #   EString.ancestors.should be_include(Enumerable)
-  # end
+  it 'should be capable of making String enumerable' do
+    class ExtendedString < String
+      include StringRay
+      make_enumerable!
+    end
+    
+    ExtendedString.ancestors.should be_include(Enumerable)
+  end
 end
