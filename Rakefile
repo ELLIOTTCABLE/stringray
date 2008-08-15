@@ -2,7 +2,8 @@
 require 'stringray'
 require 'extlib/string' # String#/, because I'm a lazy fuck.
 require 'rake'
-require 'rake/rdoctask'
+require 'yard'
+require 'yard/rake/yardoc_task'
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 
@@ -80,9 +81,29 @@ ensure
     end
   end
   
+  namespace :yard do
+    YARD::Rake::YardocTask.new :generate do |t|
+      t.files   = ['lib/**/*.rb']
+      t.options = ['--output-dir', "meta/documentation"]
+    end
+    
+    YARD::Rake::YardocTask.new :dot_yardoc do |t|
+      t.files   = ['lib/**/*.rb']
+      t.options = ['--no-output']
+    end
+    
+    task :open do
+      system 'open ' + 'meta' / 'documentation' / 'index.html' if PLATFORM['darwin']
+    end
+  end
+  
   namespace :git do
     task :status do
       `git status`
+    end
+    
+    task :commit => [:'echoe:manifest', :'yard:dot_yardoc'] do
+      `git commit`
     end
   end
   
@@ -91,8 +112,8 @@ ensure
   end
 
   desc 'Check everything over before commiting'
-  task :aok => [:'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:open', :'git:status']
+  task :aok => [:'yard:generate', :'yard:open', :'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:open', :'git:status']
 
   # desc 'Task run during continuous integration' # Invisible
-  task :cruise => [:'rcov:plain', :'rcov:verify', :'rcov:ratio']
+  task :cruise => [:'yard:generate', :'rcov:plain', :'rcov:verify', :'rcov:ratio']
 end
