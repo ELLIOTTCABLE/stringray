@@ -19,7 +19,7 @@ begin
       g.url = 'http://github.com/elliottcable/stringray'
       g.dependencies = []
       g.manifest_name = '.manifest'
-      g.ignore_pattern = ['.git', 'meta', 'stringray.gemspec']
+      g.ignore_pattern = /(^\.git$|^\.yardoc$|^meta\/|\.gemspec$)/
     end
   
     desc 'tests packaged files to ensure they are all present'
@@ -71,7 +71,7 @@ ensure
     end
 
     RCov::VerifyTask.new(:verify) do |t|
-      t.threshold = 95
+      t.threshold = 99
       t.index_html = 'meta' / 'coverage' / 'index.html'
       t.require_exact_threshold = false
     end
@@ -112,7 +112,10 @@ ensure
   end
 
   desc 'Check everything over before commiting'
-  task :aok => [:'yard:generate', :'yard:open', :'echoe:manifest', :'rcov:run', :'rcov:verify', :'rcov:open', :'git:status']
+  task :aok => [:'yard:generate', :'yard:open',
+                :'echoe:manifest',
+                :'rcov:run', :'rcov:verify', :'rcov:open',
+                :'git:status']
 
   # desc 'Task run during continuous integration' # Invisible
   task :cruise => [:'yard:generate', :'rcov:plain', :'rcov:verify', :'rcov:ratio']
