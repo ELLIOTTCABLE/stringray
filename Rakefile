@@ -58,6 +58,7 @@ ensure
       t.spec_files = Dir['spec/**/*_spec.rb'].sort
       t.libs = ['lib']
       t.rcov = true
+      t.rcov_opts = ['--exclude-only', '".*"', '--include-file', '^lib']
       t.rcov_dir = 'meta' / 'coverage'
     end
 
@@ -71,7 +72,7 @@ ensure
     end
 
     RCov::VerifyTask.new(:verify) do |t|
-      t.threshold = 99
+      t.threshold = 98.7
       t.index_html = 'meta' / 'coverage' / 'index.html'
       t.require_exact_threshold = false
     end
@@ -118,5 +119,5 @@ ensure
                 :'git:status']
 
   # desc 'Task run during continuous integration' # Invisible
-  task :cruise => [:'yard:generate', :'rcov:plain', :'rcov:verify', :'rcov:ratio']
+  task :ci => [:'yard:generate', :'rcov:plain', :'rcov:verify']
 end
