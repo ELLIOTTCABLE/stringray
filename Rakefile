@@ -6,6 +6,7 @@ require 'yard'
 require 'yard/rake/yardoc_task'
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
+require 'stringray/core_ext/spec/rake/verify_rcov'
 
 begin
   require 'echoe'
