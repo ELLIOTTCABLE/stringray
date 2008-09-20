@@ -1,9 +1,19 @@
 StringRay
 =========
 
-**StringRay** exposes a powerful method to split a `String` into an `Array` of words,
-and further allows you to include `Enumerable`, thus exposing many of the
-most useful `Array` methods on your `String`s.
+**StringRay** exposes a powerful method to split a `String` into an `Array` of
+words, and further allows you to include `Enumerable`, thus exposing many of the most useful `Array` methods on your `String`s.
+
+Links
+-----
+
+* [source (GitHub)](http://github.com/elliottcable/stringray "GitHub source repository")
+* [wiki (Google Code)](http://code.google.com/p/stringray/w/list "Google Code wiki")
+* [issues (Google Code)](http://code.google.com/p/stringray/issues "Google Code issues")
+* [Gitorious mirror](http://gitorious.org/projects/stringray "Gitorious source repository")
+* [RubyForge mirror](http://rubyforge.org/projects/stringray/ "RubyForge project")
+* [repo.or.cz mirror](http://repo.or.cz/w/stringray.git "repo.or.cz source repository")
+
 
 Usage
 -----
@@ -23,8 +33,8 @@ Getting
 -------
 
 The authoritative source for this project is available at
-<http://github.com/elliottcable/stringray>. You can clone your own copy with the
-following command:
+<http://github.com/elliottcable/stringray>. You can clone your own copy with
+the following command:
 
     git clone git://github.com/elliottcable/stringray.git
 
@@ -38,7 +48,10 @@ Requirements
 
 To use StringRay, you need... nothing!
 
-To develop and contribute to StringRay, however, you need:
+Contributing
+------------
+
+To develop and contribute to StringRay, you need...
 
 * `gem install rake`
 * `gem install rspec`
