@@ -85,12 +85,12 @@ ensure
   namespace :yard do
     YARD::Rake::YardocTask.new :generate do |t|
       t.files   = ['lib/**/*.rb']
-      t.options = ['--output-dir', "meta/documentation"]
+      t.options = ['--output-dir', "meta/documentation", '--readme', 'README.mkdn']
     end
     
     YARD::Rake::YardocTask.new :dot_yardoc do |t|
       t.files   = ['lib/**/*.rb']
-      t.options = ['--no-output']
+      t.options = ['--no-output', '--readme', 'README.mkdn']
     end
     
     task :open do
