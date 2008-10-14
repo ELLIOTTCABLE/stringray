@@ -11,15 +11,18 @@ require 'stringray/core_ext/spec/rake/verify_rcov'
 begin
   require 'echoe'
   
-  namespace :echoe do
-    Echoe.new('stringray', StringRay::VERSION) do |g|
-      g.name = 'StringRay'
+  task :package => :'package:package'
+  task :install => :'package:install'
+  task :manifest => :'package:manifest'
+  namespace :package do
+    Echoe.new('stringray', StringRay::VERSION) do |g|; g.name = 'StringRay'
+      g.project = 'stringray'
       g.author = ['elliottcable']
       g.email = ['StringRay@elliottcable.com']
       g.summary = 'Combining many of the benefits of Arrays and Strings, StringRay allows you to treat a String as an Array of words in many cases.'
       g.url = 'http://github.com/elliottcable/stringray'
       g.dependencies = []
-      g.development_dependencies = ['echoe >= 3.0.2', 'rspec', 'rcov', 'yard']
+      g.development_dependencies = ['elliottcable-echoe >= 3.0.2', 'rspec', 'rcov', 'yard']
       g.manifest_name = '.manifest'
       g.retain_gemspec = true
       g.rakefile_name = 'Rakefile.rb'
@@ -33,13 +36,7 @@ begin
         puts "\nThe library files are present"
       end
     end
-
-    # desc 'Run specs, clean tree, update manifest, run coverage, and install gem!'
-    desc 'Clean tree, update manifest, and install gem!'
-    task :magic => [:clean, :manifest, :install]
   end
-  
-  task :manifest => [:'echoe:manifest']
   
 rescue LoadError => boom
   puts "You are missing a dependency required for meta-operations on this gem."
@@ -110,7 +107,7 @@ ensure
 
   desc 'Check everything over before commiting'
   task :aok => [:'yard:generate', :'yard:open',
-                :'echoe:manifest', :'echoe:package',
+                :'package:manifest', :'package:package',
                 :'rcov:run', :'rcov:verify', :'rcov:open',
                 :'git:status']
 
