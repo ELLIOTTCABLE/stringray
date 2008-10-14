@@ -12,14 +12,17 @@ begin
   require 'echoe'
   
   namespace :echoe do
-    Echoe.new('StringRay', StringRay::VERSION) do |g|
-      g.name = 'stringray'
+    Echoe.new('stringray', StringRay::VERSION) do |g|
+      g.name = 'StringRay'
       g.author = ['elliottcable']
       g.email = ['StringRay@elliottcable.com']
       g.summary = 'Combining many of the benefits of Arrays and Strings, StringRay allows you to treat a String as an Array of words in many cases.'
       g.url = 'http://github.com/elliottcable/stringray'
       g.dependencies = []
+      g.development_dependencies = ['echoe >= 3.0.2', 'rspec', 'rcov', 'yard']
       g.manifest_name = '.manifest'
+      g.retain_gemspec = true
+      g.rakefile_name = 'Rakefile.rb'
       g.ignore_pattern = /(^\.git$|^\.yardoc$|^meta\/|\.gemspec$)/
     end
   
@@ -30,14 +33,6 @@ begin
         puts "\nThe library files are present"
       end
     end
-
-    task :copy_gemspec => [:package] do
-      pkg = Dir['pkg/*'].select {|dir| File.directory? dir}.last
-      mv File.join(pkg, pkg.gsub(/^pkg\//,'').gsub(/\-\d+$/,'.gemspec')), './'
-    end
-
-    desc 'builds a gemspec as GitHub wants it'
-    task :gemspec => [:package, :copy_gemspec, :clobber_package]
 
     # desc 'Run specs, clean tree, update manifest, run coverage, and install gem!'
     desc 'Clean tree, update manifest, and install gem!'
@@ -115,7 +110,7 @@ ensure
 
   desc 'Check everything over before commiting'
   task :aok => [:'yard:generate', :'yard:open',
-                :'echoe:manifest',
+                :'echoe:manifest', :'echoe:package',
                 :'rcov:run', :'rcov:verify', :'rcov:open',
                 :'git:status']
 

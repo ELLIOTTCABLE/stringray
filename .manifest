@@ -1,6 +1,6 @@
 lib/stringray/core_ext/spec/rake/verify_rcov.rb
 lib/stringray.rb
-Rakefile
+Rakefile.rb
 README.mkdn
 spec/stringray_spec.rb
 .manifest
