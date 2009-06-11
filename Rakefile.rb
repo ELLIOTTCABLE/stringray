@@ -15,7 +15,7 @@ begin
   task :install => :'package:install'
   task :manifest => :'package:manifest'
   namespace :package do
-    Echoe.new('stringray', StringRay::VERSION) do |g|; g.name = 'StringRay'
+    Echoe.new('stringray', StringRay::VERSION) do |g|
       g.project = 'stringray'
       g.author = ['elliottcable']
       g.email = ['StringRay@elliottcable.com']

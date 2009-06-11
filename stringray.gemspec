@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{StringRay}
+  s.name = %q{stringray}
   s.version = "2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["elliottcable"]
-  s.date = %q{2008-10-13}
+  s.date = %q{2009-06-11}
   s.description = %q{Combining many of the benefits of Arrays and Strings, StringRay allows you to treat a String as an Array of words in many cases.}
   s.email = ["StringRay@elliottcable.com"]
   s.extra_rdoc_files = ["lib/stringray/core_ext/spec/rake/verify_rcov.rb", "lib/stringray.rb", "README.markdown"]
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Stringray", "--main", "README.markdown"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{stringray}
-  s.rubygems_version = %q{1.3.0}
+  s.rubygems_version = %q{1.3.1}
   s.summary = %q{Combining many of the benefits of Arrays and Strings, StringRay allows you to treat a String as an Array of words in many cases.}
 
   if s.respond_to? :specification_version then
