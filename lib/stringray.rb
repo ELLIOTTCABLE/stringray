@@ -1,7 +1,7 @@
 require 'stringray/core_ext'
 
 module StringRay
-  VERSION = 2
+  Version = 2
   
   @@whitespace = nil
   @@delemiters = nil
