@@ -160,7 +160,7 @@ module StringRay
   # @deprecated
   alias_method :each_word, :enumerate
   
-  # @see StringRay::Word#new
+  # @see StringRay::Word.new
   def Word word; Word.new word; end
   
   ##
@@ -172,7 +172,7 @@ module StringRay
     end
   end
   
-  # @see StringRay::Whitespace#new
+  # @see StringRay::Whitespace.new
   def Whitespace whitespace; Whitespace.new whitespace; end
   
   ##
@@ -186,7 +186,7 @@ module StringRay
     end
   end
   
-  # @see StringRay::Delimiter#new
+  # @see StringRay::Delimiter.new
   def Delimiter delimiter; Delimiter.new delimiter; end
   
   ##
