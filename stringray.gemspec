@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.date = %q{2009-06-11}
   s.description = %q{Combining many of the benefits of Arrays and Strings, StringRay allows you to treat a String as an Array of words in many cases.}
   s.email = ["StringRay@elliottcable.com"]
-  s.extra_rdoc_files = ["lib/stringray/core_ext/spec/rake/verify_rcov.rb", "lib/stringray.rb", "README.markdown"]
-  s.files = ["lib/stringray/core_ext/spec/rake/verify_rcov.rb", "lib/stringray.rb", "Rakefile.rb", "README.markdown", "spec/stringray_spec.rb", ".manifest", "stringray.gemspec"]
+  s.extra_rdoc_files = ["lib/stringray.rb", "lib/stringray/core_ext.rb", "lib/stringray/core_ext/kernel.rb", "lib/stringray/core_ext/spec/rake/verify_rcov.rb", "README.markdown"]
+  s.files = ["lib/stringray.rb", "lib/stringray/core_ext.rb", "lib/stringray/core_ext/kernel.rb", "lib/stringray/core_ext/spec/rake/verify_rcov.rb", "spec/stringray_spec.rb", "README.markdown", "Rakefile.rb", ".manifest", "stringray.gemspec"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/elliottcable/stringray}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Stringray", "--main", "README.markdown"]

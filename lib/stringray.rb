@@ -1,3 +1,5 @@
+require 'stringray/core_ext'
+
 module StringRay
   VERSION = 2
   
@@ -212,7 +214,10 @@ module StringRay
     # +String#each_at+.
     def make_enumerable!
       self.class_eval do
-        alias_method :each_at, :each if RUBY_VERSION <= "1.9"
+        if RUBY_VERSION <= "1.9"
+          Kernel::warn "overriding String#each with StringRay#enumerate; this may break old libaries!"
+          alias_method :each_at, :each
+        end
         alias_method :each, :enumerate
         
         include Enumerable
