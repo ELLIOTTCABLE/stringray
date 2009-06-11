@@ -212,7 +212,7 @@ module StringRay
     # +String#each_at+.
     def make_enumerable!
       self.class_eval do
-        alias_method :each_at, :each
+        alias_method :each_at, :each if RUBY_VERSION <= "1.9"
         alias_method :each, :enumerate
         
         include Enumerable
