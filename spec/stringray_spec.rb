@@ -10,9 +10,7 @@ Period  = Delimiter '.'
 
 describe 'a String including StringRay' do
   before :all do
-    class String
-      include StringRay
-    end
+    String.send :include, StringRay::Includes
   end
   
   describe "#to_stray" do
@@ -166,12 +164,13 @@ describe 'a String including StringRay' do
     end
   end
   
-  it 'should be capable of making String enumerable' do
-    class ExtendedString < String
-      include StringRay
-      make_enumerable!
+  if RUBY_VERSION >= '1.9'
+    it 'should be capable of making String enumerable' do
+      class ExtendedString < String
+        include StringRay::Includes
+      end
+      
+      ExtendedString.ancestors.should be_include(Enumerable)
     end
-    
-    ExtendedString.ancestors.should be_include(Enumerable)
   end
 end
