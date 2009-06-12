@@ -77,5 +77,9 @@ class StringRay < Array
     end
   end
   
+  def inspect
+    "\"#{self.map(&:inspect).join ''}\""
+  end
+  
 end
 
