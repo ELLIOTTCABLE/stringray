@@ -1,7 +1,7 @@
 require 'stringray/core_ext'
 require 'stringray/includes'
 
-module StringRay
+class StringRay < Array
   Version = 3
   
   @@whitespace = nil

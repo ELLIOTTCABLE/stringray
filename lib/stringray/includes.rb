@@ -1,4 +1,4 @@
-module StringRay
+class StringRay < Array
   
   # This is mixed into any class including +StringRay+. It exposes
   # +#to_stray+ and +#enumerate+ to said class's instances.
@@ -49,7 +49,7 @@ module StringRay
     #   container objects
     # @since 2
     def to_stray
-      ray = []
+      ray = StringRay.new
       new_element = lambda do |element|
         yield ray.last if block_given? unless ray.empty?
         ray << element
