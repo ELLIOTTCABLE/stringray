@@ -91,14 +91,11 @@ class StringRay < Array
     # @deprecated
     alias_method :each_word, :enumerate
     
-    def self.included klass
-      unless RUBY_VERSION <= "1.9"
-        alias_method :each, :enumerate
-        include Enumerable
-      end
+    unless RUBY_VERSION <= "1.9"
+      alias_method :each, :enumerate
+      include Enumerable
     end
     
   end
-
 end
 
