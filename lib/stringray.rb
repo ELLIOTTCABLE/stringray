@@ -41,6 +41,85 @@ class StringRay < Array
   def self.Word word; Word.new word; end
   
   ##
+  # @see StringRay::Includes#to_stray
+  # @see #whitespace
+  # @see #delemiters
+  # Enumerates a string, returning an array plain +String+s.
+  # 
+  # @param [Hash] options A hash of options
+  # @yield [word] Allows each word in the string to be operated on after it is
+  #   processed
+  # @yieldparam [String] word The last processed word
+  # @return [Array[String]] An array of words
+  # @since 1
+  def enumerate options = {}, &block
+    # TODO: Can we clean this up, into a simple #inject call? I bet so.
+    # TODO: This really should return an Enumerator object. Seriously.
+    mapped = []
+    attach_before_next = []
+    
+    self.each do |element|
+      case element
+      when Delimiter
+        case options[:delemiters] || StringRay::delemiters
+        when :standalone
+          mapped << [element]
+        when :attach_after
+          attach_before_next << element
+        else
+          if attach_before_next.empty?
+            if mapped.last
+              mapped.last << element
+            else
+              attach_before_next << element
+            end
+          else
+            attach_before_next << element
+          end
+        end
+        
+      when Whitespace
+        case options[:whitespace] || StringRay::whitespace
+        when :standalone
+          mapped << [element]
+        when :attach_after
+          attach_before_next << element
+        else
+          if attach_before_next.empty?
+            if mapped.last
+              mapped.last << element
+            else
+              attach_before_next << element
+            end
+          else
+            attach_before_next << element
+          end
+        end
+        
+      when Word
+        if not attach_before_next.empty?
+          mapped << [attach_before_next, element].flatten
+          attach_before_next = []
+        else
+          mapped << [element]
+        end
+        
+      end
+    end
+    
+    if not attach_before_next.empty?
+      mapped << [Word.new] unless mapped.last
+      (mapped.last << attach_before_next).flatten!
+    end
+    
+    mapped.map do |arr|
+      string = arr.map{|w|w.to_s}.join
+      yield string if block_given?
+      string
+    end
+  end
+  
+  ##
   # A wrapper class for strings that are 'words' in and of themselves,
   # composed of 'word characters'.
   class Word < String

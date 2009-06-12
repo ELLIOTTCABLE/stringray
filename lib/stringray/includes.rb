@@ -84,82 +84,8 @@ class StringRay < Array
       end
     end
     
-    ##
-    # @see #to_stray
-    # @see StringRay#whitespace
-    # @see StringRay#delemiters
-    # Enumerates a string, similar to +#to_stray+, but returning an array of
-    # plain +String+s instead of a +StringRay+ container object.
-    # 
-    # @param [Hash] options A hash of options
-    # @yield [word] Allows each word in the string to be operated on after it is
-    #   processed
-    # @yieldparam [String] word The last processed word
-    # @return [Array[String]] An array of words
-    # @since 1
     def enumerate options = {}, &block
-      mapped = []
-      attach_before_next = []
-      
-      self.to_stray do |element|
-        case element
-        when Delimiter
-          case options[:delemiters] || StringRay::delemiters
-          when :standalone
-            mapped << [element]
-          when :attach_after
-            attach_before_next << element
-          else
-            if attach_before_next.empty?
-              if mapped.last
-                mapped.last << element
-              else
-                attach_before_next << element
-              end
-            else
-              attach_before_next << element
-            end
-          end
-          
-        when Whitespace
-          case options[:whitespace] || StringRay::whitespace
-          when :standalone
-            mapped << [element]
-          when :attach_after
-            attach_before_next << element
-          else
-            if attach_before_next.empty?
-              if mapped.last
-                mapped.last << element
-              else
-                attach_before_next << element
-              end
-            else
-              attach_before_next << element
-            end
-          end
-          
-        when Word
-          if not attach_before_next.empty?
-            mapped << [attach_before_next, element].flatten
-            attach_before_next = []
-          else
-            mapped << [element]
-          end
-          
-        end
-      end
-      
-      if not attach_before_next.empty?
-        mapped << [Word.new] unless mapped.last
-        (mapped.last << attach_before_next).flatten!
-      end
-      
-      mapped.map do |arr|
-        string = arr.map{|w|w.to_s}.join
-        yield string if block_given?
-        string
-      end
+      self.to_stray.enumerate options, &block
     end
     
     # @deprecated
