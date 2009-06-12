@@ -38,7 +38,7 @@ class StringRay < Array
   end
   
   # @see StringRay::Word.new
-  def Word word; Word.new word; end
+  def self.Word word; Word.new word; end
   
   ##
   # A wrapper class for strings that are 'words' in and of themselves,
@@ -50,7 +50,7 @@ class StringRay < Array
   end
   
   # @see StringRay::Whitespace.new
-  def Whitespace whitespace; Whitespace.new whitespace; end
+  def self.Whitespace whitespace; Whitespace.new whitespace; end
   
   ##
   # A wrapper class for strings that are 'whitespace' composed of 'whitespace
@@ -64,7 +64,7 @@ class StringRay < Array
   end
   
   # @see StringRay::Delimiter.new
-  def Delimiter delimiter; Delimiter.new delimiter; end
+  def self.Delimiter delimiter; Delimiter.new delimiter; end
   
   ##
   # A wrapper class for strings that are 'delimiters' composed of 'delimiter
