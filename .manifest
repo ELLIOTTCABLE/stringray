@@ -1,9 +1,8 @@
-lib/stringray.rb
-lib/stringray/includes.rb
-lib/stringray/core_ext.rb
 lib/stringray/core_ext/kernel.rb
-lib/stringray/core_ext/spec/rake/verify_rcov.rb
-spec/stringray_spec.rb
-README.markdown
+lib/stringray/core_ext.rb
+lib/stringray/includes.rb
+lib/stringray.rb
 Rakefile.rb
+README.markdown
+spec/stringray_spec.rb
 .manifest
