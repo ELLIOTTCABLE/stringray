@@ -1,4 +1,3 @@
-require 'stringray/core_ext'
 require 'stringray/includes'
 
 class StringRay < Array

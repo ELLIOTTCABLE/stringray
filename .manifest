@@ -1,5 +1,3 @@
-lib/stringray/core_ext/kernel.rb
-lib/stringray/core_ext.rb
 lib/stringray/includes.rb
 lib/stringray.rb
 Rakefile.rb
